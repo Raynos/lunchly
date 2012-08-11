@@ -1,3 +1,3 @@
-var paperController = require('controllers/').paperController
+var paperController = require('./controllers').paperController
 
 console.log("entry!")

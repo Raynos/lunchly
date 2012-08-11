@@ -1,17 +1,14 @@
 var boot = require("boot")
     , StreamRouter = require("stream-router")
-    , Channel = require("multi-channel-mdm")
-    , StreamServerProxy = require("browser-stream-server")
+    , StreamSetProxy = require("./lib/streamSet")
 
 var streamRouter = StreamRouter()
     , sock = boot(logger(streamRouter))
 
-// A channel for each user
-streamRouter.addRoute("/user/:streamName", Channel())
-// A channel for all users
-streamRouter.addRoute("/users", Channel())
-// A Stream server for all users
-streamRouter.addRoute("/users/*", StreamServerProxy("/users"))
+// A set for each user
+streamRouter.addRoute("/user", StreamSetProxy("/user", true))
+// A set for all users
+streamRouter.addRoute("/users", StreamSetProxy("/users"))
 
 module.exports = router
 
