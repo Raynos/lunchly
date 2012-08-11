@@ -6,9 +6,9 @@ var streamRouter = StreamRouter()
     , sock = boot(logger(streamRouter))
 
 // A set for each user
-streamRouter.addRoute("/user", StreamSetProxy("/user", true))
+streamRouter.addRoute("/user/*", StreamSetProxy("/user", true))
 // A set for all users
-streamRouter.addRoute("/users", StreamSetProxy("/users"))
+streamRouter.addRoute("/users/*", StreamSetProxy("/users"))
 
 module.exports = router
 
@@ -28,7 +28,16 @@ function logger(f) {
                 , data: data
                 , id: stream.id
             })
-        })*/
+        })
+        var _write = stream.write
+        stream.write = function (data) {
+            console.log("[BOOT-STREAM-WRITE]", {
+                meta: stream.meta
+                , data: data
+                , id: stream.id
+            })
+            _write.apply(stream, arguments)
+        }*/
         f.apply(this, arguments)
     }
 }

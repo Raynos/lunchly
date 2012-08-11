@@ -15,18 +15,29 @@ function StreamSet(mdm, uri) {
         , buffer = PauseStream().pause()
         , id = uuid()
 
+    console.log("channel stream ", uri + "/channel")
+
+    channel.on("end", function () {
+        console.log("channel dead")
+    })
+
     // request a sync
     channel.write(JSON.stringify({
         event: "sync"
         , id: id
     }))
 
+    channel.on("data", function (data) {
+        console.log("channel data", JSON.parse(data))
+    })
+
     // open a stream connection to the sync server
     var syncStream = StreamClient(mdm, {
         prefix: uri + "/proxy"
     }).connect(id)
     // when we get data from the server it's the initial state
-    syncStream.on("data", syncState)
+    syncStream.once("data", syncState)
+    syncStream.once("end", emitReady)
 
     // buffer the channel until we have the initial data
     channel.pipe(buffer)
@@ -46,9 +57,13 @@ function StreamSet(mdm, uri) {
     function syncState(data) {
         data = JSON.parse(data)
         forEach(data, setOnStore)
+        syncStream.end()
+    }
+
+    function emitReady(data) {
+        console.log("emit ready called")
         streamSet.emit("ready")
         buffer.resume()
-        syncStream.end()
     }
 
     function setOnStore(value, key) {
@@ -58,6 +73,7 @@ function StreamSet(mdm, uri) {
     function handleStateChange(data) {
         var key, value, id, event
         data = JSON.parse(data)
+        console.log("buffer data", data)
         event = data.event
         if (event === "set") {
             key = data.key
@@ -83,6 +99,7 @@ function StreamSet(mdm, uri) {
 
     function set(key, value) {
         store[key] = value
+        console.log("writing to channel")
         channel.write(JSON.stringify({
             event: "set"
             , key: key

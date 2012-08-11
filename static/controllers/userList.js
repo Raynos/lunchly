@@ -12,6 +12,7 @@ function UserListController(paper, userList){
     this.userList = userList
 
     userList.on("set", function (user) {
+        console.log("got user", user)
         self.renderUser(user)
     })
 }
@@ -38,7 +39,7 @@ function renderUser(user) {
 }
 
 function getNewCoordinates(){
-    var numUsers = this.users.length
+    var numUsers = this.userList.keys().length
         , x = (numUsers * userWidth + padding)
         , y = 0
 
