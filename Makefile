@@ -1,2 +1,2 @@
 devserver:
-	nodemon server.js
+	nodemon index.js
