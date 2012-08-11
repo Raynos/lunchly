@@ -10,6 +10,7 @@ function UserListController(paper, userList){
     var self = this
     this.paper = paper
     this.userList = userList
+    this.renderedUsers = 0
 
     userList.on("set", function (user) {
         console.log("got user", user)
@@ -28,20 +29,22 @@ function addUser(user){
 function renderUser(user) {
     var coordinates = this.getNewCoordinates()
     console.log(coordinates,this.users)
-    user.rect = this.paper.rect(
+    var rect = this.paper.rect(
         coordinates.x
         , coordinates.y
         , userWidth
         , userHeight
         , cornering
     )
-    user.rect.attr("fill", "#f00")
+    rect.attr("fill", "#f00")
 }
 
-function getNewCoordinates(){
-    var numUsers = this.userList.keys().length
+function getNewCoordinates(user){
+    var numUsers = this.renderedUsers
         , x = (numUsers * userWidth + padding)
         , y = 0
+
+    this.renderedUsers++
 
     return {x:x,y:y}
 }

@@ -3,6 +3,6 @@ var browserifyServer = require("browserify-server")
     , path = require("path")
 
 var handler = browserifyServer(path.join(__dirname, "static"))
-    , server = http.createServer(handler).listen(8080)
+    , server = http.createServer(handler).listen(process.argv[2] || 8080)
 
 module.exports = server

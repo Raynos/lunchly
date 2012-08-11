@@ -4,8 +4,8 @@ module.exports = {
     createFromName : createFromName
 }
 
-function createFromName(name){
+function createFromName(id){
     return new UserEntity({
-        name : name
+        id: id
     })
 }

@@ -4,7 +4,7 @@ var EventEmitter = require("events").EventEmitter
     , globalContext = new Function('return this')()
     , PauseStream = require("pause-stream")
     , uuid = require("node-uuid")
-    , forEach = require("iterators").forEach
+    , forEach = require("iterators").forEachSync
 
 module.exports = StreamSet
 
@@ -12,7 +12,8 @@ function StreamSet(mdm, uri) {
     var streamSet = new EventEmitter()
         , channel = mdm.createStream(uri + "/channel")
         , store = {}
-        , buffer = PauseStream().pause()
+        , bufferRead = PauseStream().pause()
+        , bufferWrite = PauseStream().pause()
         , id = uuid()
 
     console.log("channel stream ", uri + "/channel")
@@ -40,10 +41,11 @@ function StreamSet(mdm, uri) {
     syncStream.once("end", emitReady)
 
     // buffer the channel until we have the initial data
-    channel.pipe(buffer)
+    channel.pipe(bufferRead)
+    bufferWrite.pipe(channel)
 
     // mutate set when channel emits change event
-    buffer.on("data", handleStateChange)
+    bufferRead.on("data", handleStateChange)
 
     // expose set methods
     streamSet.set = set
@@ -63,11 +65,14 @@ function StreamSet(mdm, uri) {
     function emitReady(data) {
         console.log("emit ready called")
         streamSet.emit("ready")
-        buffer.resume()
+        bufferRead.resume()
+        bufferWrite.resume()
     }
 
     function setOnStore(value, key) {
         store[key] = value
+        console.log("emitting from setOnStore")
+        streamSet.emit("set", value, key, store)
     }
 
     function handleStateChange(data) {
@@ -79,6 +84,7 @@ function StreamSet(mdm, uri) {
             key = data.key
             value = data.value
             store[key] = value
+            console.log("log emitting from streamSet")
             streamSet.emit("set", value, key, store)
         } else if (event === "delete") {
             key = data.key
@@ -90,6 +96,7 @@ function StreamSet(mdm, uri) {
             var server = StreamServer(mdm, {
                 prefix: uri + "/proxy"
             }, function (stream) {
+                console.log("store", store)
                 stream.write(JSON.stringify(store))
                 stream.end()
                 server.end()
@@ -100,7 +107,7 @@ function StreamSet(mdm, uri) {
     function set(key, value) {
         store[key] = value
         console.log("writing to channel")
-        channel.write(JSON.stringify({
+        bufferWrite.write(JSON.stringify({
             event: "set"
             , key: key
             , value: value
@@ -117,7 +124,7 @@ function StreamSet(mdm, uri) {
 
     function $delete(key) {
         delete store[key]
-        channel.write(JSON.stringify({
+        bufferWrite.write(JSON.stringify({
             event: "delete"
             , key: key
         }))

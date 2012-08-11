@@ -1,24 +1,19 @@
 var controllers = require('./controllers/')
+    , PaperController = controllers.paperController
+    , UserListController = controllers.userList
     , behaviours = require("./behaviours/")
+    , userList = behaviours.userList
+    , entities = require("./entities")
+    , uuid = require("node-uuid")
+    , User = entities.user
 
-var paperController = new controllers.paperController()
+var paperController = new PaperController()
 
-var userListController = new controllers.userList(
+var userListController = new UserListController(
     paperController.paper
-    , behaviours.userList
+    , userList
 )
 
-userListController.addUser({
-    a: 1
-    , id: 1
-})
-userListController.addUser({
-    b: 2
-    , id: 2
-})
-userListController.addUser({
-    c: 3
-    , id: 3
-})
+userListController.addUser(User(uuid()))
 
 console.log("entry!",paperController)

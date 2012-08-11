@@ -1,8 +1,13 @@
 module.exports = UserEntity
 
 function UserEntity(data){
-    this.name = data
+    this.id = data.id
 }
-UserEntity.prototype.setName = function setName(name){
-    this.name = name
+
+UserEntity.prototype.toJSON = toJSON
+
+function toJSON() {
+    return {
+        id: this.id
+    }
 }
