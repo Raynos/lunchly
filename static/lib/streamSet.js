@@ -47,6 +47,7 @@ function StreamSet(mdm, uri) {
         data = JSON.parse(data)
         forEach(data, setOnStore)
         streamSet.emit("ready")
+        buffer.resume()
         syncStream.end()
     }
 
