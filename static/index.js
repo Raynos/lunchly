@@ -1,3 +1,11 @@
-var paperController = require('controllers/').paperController
+var controllers = require('./controllers/')
 
-console.log("entry!")
+var paperController = new controllers.paperController()
+
+var userListController = new controllers.userList(paperController.paper)
+
+userListController.addUser({a:1})
+userListController.addUser({b:2})
+userListController.addUser({c:3})
+
+console.log("entry!",paperController)

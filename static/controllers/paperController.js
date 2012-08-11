@@ -1,13 +1,13 @@
 var raphael = require('../lib/raphael')
 
-module.exports = PaperListController
+module.exports = PaperController
 
-function PaperListController(){
-    this.x = 0
-    this.y = 0
+function PaperController(){
+    this.x = 1
+    this.y = 1
     this.width = 500
     this.height = 500
-    this.paper = raphael.Raphael(
+    this.paper = raphael(
         this.x
         , this.y
         , this.width
