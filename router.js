@@ -9,6 +9,10 @@ var streamRouter = StreamRouter()
 streamRouter.addRoute("/user/*", StreamSetProxy("/user", true))
 // A set for all users
 streamRouter.addRoute("/users/*", StreamSetProxy("/users"))
+// A set for each group
+streamRouter.addRoute("/group/*", StreamSetProxy("/group", true))
+// A set for all groups
+streamRouter.addRoute("/groups/*", StreamSetProxy("/groups"))
 
 module.exports = router
 
