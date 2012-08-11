@@ -1,0 +1,2 @@
+devserver:
+	nodemon server.js

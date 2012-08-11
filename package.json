@@ -1,0 +1,35 @@
+{
+  "name": "luncly",
+  "version": "0.3.1",
+  "description": "A stream server in the browser",
+  "keywords": [],
+  "author": "Raynos <raynos2@gmail.com>",
+  "repository": "git://github.com/Raynos/lunchly.git",
+  "main": "index",
+  "homepage": "https://github.com/Raynos/lunchly",
+  "contributors": [
+    {
+      "name": "Jake Verbaten"
+    }
+  ],
+  "bugs": {
+    "url": "https://github.com/Raynos/lunchly/issues",
+    "email": "raynos2@gmail.com"
+  },
+  "dependencies": {
+    "stream-router": "0.0.2",
+    "boot": "~0.6.1",
+    "browserify-server": "~0.2.0"
+  },
+  "devDependencies": {
+    "nodemon": "~0.6.23",
+    "sockjs": "~0.3.1"
+  },
+  "licenses": [
+    {
+      "type": "MIT",
+      "url": "http://github.com/Raynos/lunchly/raw/master/LICENSE"
+    }
+  ],
+  "scripts": {}
+}
