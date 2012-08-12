@@ -4,6 +4,7 @@ var userWidth = 50
     , cornering = 10
     , paper = require("./paper")
     , moveRectangle = require('./moveRectangle')
+    , rect_user = {}
 
 module.exports = UserListView
 
@@ -36,6 +37,11 @@ function renderUser(user) {
     this.objects[user.id] = paper.set(rect, text)
     rect.attr("fill", "#f00")
     rect.drag.apply(rect,moveRectangle)
+    rect_user[rect.id] = user
+    rect.onDragOver(function(element){
+        console.log(user.name, "on top of "
+            ,rect_user[element.id].name)
+    })
 }
 
 function getNewCoordinates(user){
