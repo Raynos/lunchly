@@ -22,10 +22,10 @@ function UserListController(view, userList,groupListView){
         view.unrenderUser(user)
     })
 
-    view.on('userOnElement',function(user,elementId){
-        var group = groupListView.getGroupByElementId(elementId)
+    view.on('onDragOver',function(entity,element){
+        var group = groupListView.getEntityByElementId(element.id)
         if(group){
-            userSets[user.id].set("group",group)
+            userSets[entity.id].set("group",group)
         }
     })
 }

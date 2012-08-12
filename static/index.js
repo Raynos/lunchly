@@ -22,8 +22,8 @@ var groupListView = new BlockListView({
     , groupListController = new GroupListController(groupListView, groupList)
 
 var userListView = new BlockListView({
-        blockWidth : 100
-        , blockHeight : 100
+        blockWidth : 75
+        , blockHeight : 75
         , padding :10
         , cornering :10
     })

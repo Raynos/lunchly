@@ -22,14 +22,19 @@ util.inherits(BlockListView,EventEmitter)
 BlockListView.prototype.getNewCoordinates = getNewCoordinates
 BlockListView.prototype.renderEntity = renderEntity
 BlockListView.prototype.unrenderEntity = unrenderEntity
-BlockListView.prototype.getBlockByElementId = getBlockByElementId
+BlockListView.prototype.getEntityByElementId = getEntityByElementId
+
+function getEntityByElementId(elementId){
+    return rect_entity[elementId]
+}
 
 function getBlockByElementId(elementId){
     return rect_entity[elementId]
 }
 
 function renderEntity(entity) {
-    var coordinates = this.getNewCoordinates()
+    var self = this
+        , coordinates = this.getNewCoordinates()
     if(!entity.id){
         console.warn("renderBlock, entity has no id.  not rendering")
         return
@@ -55,6 +60,7 @@ function renderEntity(entity) {
     rect_entity[rect.id] = entity
     rect.onDragOver(function(element){
         console.log(rect.id + "is over "+element.id)
+        self.emit('onDragOver',entity,element)
     })
 }
 
