@@ -1,16 +1,23 @@
 <html>
     <head>
         <title> Lunchly </title>
+        <link rel="stylesheet" type="text/css" href="style.css">
     </head>
     <body>
-        <p>i arz graphic designer</p>
-        <input id="username"/>
-        <button id="enter-app">Enter app</button>
-        <input id="newGroup"/>
-        <button id="newGroup-button">Enter app</button>
+        <div class="top">
+            <p>i arz graphic designer</p>
+            <input id="username"/>
+            <button id="enter-app">Enter app</button>
+            <input id="newGroup"/>
+            <button id="newGroup-button">Enter app</button>
+        </div>
+        <div id="map-canvas" class="map"></div>
+        <div id="rapheal-paper" class="paper"></div>
+        <script 
+            type="text/javascript"
+            src="http://maps.googleapis.com/maps/api/js?key=AIzaSyC7-hEyNihFX4_XaUzz2cd1eKBE4IYEysY&sensor=true"
+        ></script>
         <script src="https://raw.github.com/DmitryBaranovskiy/raphael/master/raphael-min.js"></script>
         <script src="bundle.js"></script>
-
-
     </body>
 </html>

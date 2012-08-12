@@ -1,7 +1,8 @@
 var raphael = require('../lib/raphael')
     , x = 1
     , y = 100
-    , width = 500
-    , height = 500
+    , paperElement = document.getElementById("rapheal-paper")
+    , width = paperElement.offsetWidth - 4
+    , height = paperElement.offsetHeight - 4
 
-module.exports = raphael(x, y, width, height)
+module.exports = raphael(paperElement, width, height)

@@ -1,0 +1,27 @@
+html {
+    height: 100%;
+}
+
+body {
+    height: 100%;
+    margin: 0;
+}
+
+.map {
+    position: absolute;
+    top: 56px;
+    bottom: 2px;
+    right: 2px;
+    left: 0;
+    z-index: 1;
+}
+
+.paper {
+    position: absolute;
+    top: 56px;
+    bottom: 2px;
+    right: 2px;
+    left: 0;
+    z-index: 2;
+    border: 2px solid red;
+}
