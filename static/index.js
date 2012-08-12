@@ -15,7 +15,8 @@ var groupListView = new GroupListView()
     , groupListController = new GroupListController(groupListView, groupList)
 
 var userListView = new UserListView()
-    , userListController = new UserListController(userListView, userList)
+    , userListController = new UserListController(
+        userListView, userList,groupListView)
 
 UserNameView(userListController)
 NewGroup(groupListController)

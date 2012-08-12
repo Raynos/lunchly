@@ -4,6 +4,8 @@ var userWidth = 50
     , cornering = 10
     , paper = require("./paper")
     , moveRectangle = require('./moveRectangle')
+    , EventEmitter = require('events').EventEmitter
+    , util = require('util')
     , rect_user = {}
 
 module.exports = UserListView
@@ -12,6 +14,8 @@ function UserListView() {
     this.objects = {}
     this.renderedUsers = 0
 }
+util.inherits(UserListView,EventEmitter)
+
 
 UserListView.prototype.getNewCoordinates = getNewCoordinates
 UserListView.prototype.renderUser = renderUser
@@ -19,6 +23,7 @@ UserListView.prototype.unrenderUser = unrenderUser
 
 function renderUser(user) {
     var coordinates = this.getNewCoordinates()
+    , self = this
 
     console.log(coordinates,this.users)
     var rect = paper.rect(
@@ -39,8 +44,8 @@ function renderUser(user) {
     rect.drag.apply(rect,moveRectangle)
     rect_user[rect.id] = user
     rect.onDragOver(function(element){
-        console.log(user.name, "on top of "
-            ,rect_user[element.id].name)
+        console.log(rect.id + "is over "+element.id)
+        self.emit('userOnElement',user,element.id)
     })
 }
 
