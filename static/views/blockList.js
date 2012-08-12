@@ -8,7 +8,7 @@ module.exports = BlockListView
 
 function BlockListView(options) {
     options = options || {}
-    this.entities = {}
+    this.entity_set = {}
     this.renderedBlocks = 0
     this.blockWidth = options.blockWidth || 100
     this.blockHeight = options.blockHeight || 100
@@ -46,7 +46,7 @@ function renderEntity(entity) {
         , coordinates.y + this.blockHeight / 2
         , entity.name || "??"
     )
-    this.entities[entity.id] = paper.set(rect, text)
+    this.entity_set[entity.id] = paper.set(rect, text)
     rect.attr("fill", "#f00")
     rect.drag.apply(rect,moveRectangle)
     rect_entity[rect.id] = entity
@@ -66,5 +66,5 @@ function getNewCoordinates(block){
 }
 
 function unrenderEntity(entity) {
-    this.entities[entity.id].remove()
+    this.entity_set[entity.id].remove()
 }
