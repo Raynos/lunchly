@@ -7,6 +7,8 @@ var raphael = require('../lib/raphael')
 
 module.exports = UserListController
 
+var rect_user = {}
+
 function UserListController(paper, userList){
     var self = this
     this.paper = paper
@@ -47,6 +49,12 @@ function renderUser(user) {
     this.objects[user.id] = paper.set(rect, text)
     rect.attr("fill", "#f00")
     rect.drag.apply(rect,moveRectangle)
+    rect_user[rect.id] = user
+    rect.onDragOver(function(element){
+        console.log(user.name, "on top of "
+            ,rect_user[element.id].name)
+    })
+    
 }
 
 function getNewCoordinates(user){

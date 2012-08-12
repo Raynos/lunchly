@@ -1,4 +1,5 @@
 function start() {
+    this.toFront()
     this.ox = this.attr("x")
     this.oy = this.attr("y")
     this.animate({
