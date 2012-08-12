@@ -5,7 +5,7 @@ var User = require("../entities").user
 
 module.exports = UserListController
 
-function UserListController(view,groupListView){
+function UserListController(userListView, groupListView){
     var userSets = {}
     var userList = this.userList = UserSet(mdm, "/users")
     
@@ -13,17 +13,17 @@ function UserListController(view,groupListView){
     userList.on("set", function (user) {
         // console.log("got user", user)
         var userSet = userSets[user.id] = StreamSet(mdm,'/user/'+user.id)
-        view.renderEntity(user)
+        userListView.renderEntity(user)
         userSet.on("set",function(value,key){
             console.log("userSet",user.id,value,key)
         })
     })
 
     userList.on("delete", function (user) {
-        view.unrenderUser(user)
+        userListView.unrenderUser(user)
     })
 
-    view.on('onDragOver',function(entity,element){
+    userListView.on('onDragOver', function(entity,element){
         var group = groupListView.getEntityByElementId(element.id)
         if(group){
             userSets[entity.id].set("group",group)

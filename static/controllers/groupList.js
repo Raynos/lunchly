@@ -4,14 +4,14 @@ var Group = require('../entities').group
 
 module.exports = GroupListController
 
-function GroupListController(view){
+function GroupListController(groupListView, map){
     var groupList = StreamSet(mdm, "/groups")
     this.groupList = groupList
     groupList.on('set',function(group){
-        view.renderEntity(group)
+        groupListView.renderEntity(group)
     })
     groupList.on('delete',function(group){
-        view.unrenderEntity(group)
+        groupListView.unrenderEntity(group)
     })
 }
 
