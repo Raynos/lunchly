@@ -1,14 +1,16 @@
 var moveSet = require('./moveSet')
     , EventEmitter = require('events').EventEmitter
+    , iterators = require("iterators")
+    , some = iterators.someSync
     , util = require('util')
     , paper = require("./paper")
-    , rect_entity = {}
 
 module.exports = BlockListView
 
 function BlockListView(options) {
     options = options || {}
     this.entity_set = {}
+    this.entities = {}
     this.renderedBlocks = 0
     this.blockWidth = options.blockWidth || 100
     this.blockHeight = options.blockHeight || 100
@@ -24,13 +26,15 @@ BlockListView.prototype.getNewCoordinates = getNewCoordinates
 BlockListView.prototype.renderEntity = renderEntity
 BlockListView.prototype.unrenderEntity = unrenderEntity
 BlockListView.prototype.getEntityByElementId = getEntityByElementId
+BlockListView.prototype.createSet = createSet
 
 function getEntityByElementId(elementId){
-    return rect_entity[elementId]
-}
-
-function getBlockByElementId(elementId){
-    return rect_entity[elementId]
+    return some(this.entity_set, function (set, entityId) {
+        return some(set, function (elem) {
+            return elem.id === elementId
+        }) && this.entities[entityId]
+    }, this)
+    //return block_entity[elementId]
 }
 
 function renderEntity(entity) {
@@ -40,28 +44,11 @@ function renderEntity(entity) {
         console.warn("renderBlock, entity has no id.  not rendering")
         return
     }
-    var rect = paper.rect(
-        coordinates.x
-        , coordinates.y
-        , this.blockWidth
-        , this.blockHeight
-        , this.cornering
-    )
-    var text = paper.text(
-        coordinates.x + this.blockWidth / 2
-        , coordinates.y + this.blockHeight / 2
-        , entity.name || "??"
-    )
-    var set = paper.set(rect, text)
+    var set = this.createSet(coordinates, entity)
     this.entity_set[entity.id] = set
+    this.entities[entity.id] = entity
     moveSet(set)
-    rect.attr("fill", this.color)
-    rect_entity[rect.id] = entity
     set.mouseup(onmouseup)
-    rect.onDragOver(function(element){
-        console.log(rect.id + "is over "+element.id)
-        self.emit('onDragOver',entity,element)
-    })
 
     function onmouseup(event) {
         self.emit("mouseup", entity, event)
@@ -85,4 +72,28 @@ function getNewCoordinates(entity){
 
 function unrenderEntity(entity) {
     this.entity_set[entity.id].remove()
+}
+
+function createSet(coordinates, entity) {
+    var self = this
+
+    var rect = paper.rect(
+        coordinates.x
+        , coordinates.y
+        , this.blockWidth
+        , this.blockHeight
+        , this.cornering
+    )
+    rect.attr("fill", this.color)
+    var text = paper.text(
+        coordinates.x + this.blockWidth / 2
+        , coordinates.y + this.blockHeight / 2
+        , entity.name || "??"
+    )
+    rect.onDragOver(function(element){
+        console.log(rect.id + "is over "+element.id)
+        self.emit('onDragOver',entity,element)
+    })
+
+    return paper.set(rect, text)
 }
