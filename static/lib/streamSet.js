@@ -81,7 +81,7 @@ function StreamSet(mdm, uri) {
     function handleStateChange(data) {
         var key, value, id, event
         data = JSON.parse(data)
-        // console.log("buffer data", data)
+        console.log("buffer data", data)
         event = data.event
         if (event === "set") {
             key = data.key
@@ -93,7 +93,7 @@ function StreamSet(mdm, uri) {
             key = data.key
             value = store[key]
             ;delete store[key]
-            // streamSet.emit("delete", value, key, store)
+            streamSet.emit("delete", value, key, store)
         } else if (event === "sync") {
             id = data.id
             var server = StreamServer(mdm, {

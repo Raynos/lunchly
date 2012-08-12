@@ -59,10 +59,16 @@ function renderEntity(entity) {
     moveSet(set)
     rect.attr("fill", this.color)
     rect_entity[rect.id] = entity
+    console.log("elements", rect, text)
+    set.mouseup(onmouseup)
     rect.onDragOver(function(element){
         console.log(rect.id + "is over "+element.id)
         self.emit('onDragOver',entity,element)
     })
+
+    function onmouseup(event) {
+        self.emit("mouseup", entity, event)
+    }
 }
 
 function getNewCoordinates(entity){

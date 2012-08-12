@@ -24,5 +24,23 @@ function createMap(position) {
                 position.coords.accuracy+" meter radius)"
         })
 
+    map.fromContainerPixelToLatLng = fromContainerPixelToLatLng
+    map.fromLatLngToContainerPixel = fromLatLngToContainerPixel
+
     return map
+
+    function fromLatLngToContainerPixel(latlng) {
+        return Projection(map).fromLatLngToContainerPixel(latlng)
+    }
+
+    function fromContainerPixelToLatLng(pixel) {
+        return Projection(map).fromContainerPixelToLatLng(pixel)
+    }
+}
+
+function Projection(map) {
+    var overlay = new maps.OverlayView()
+    overlay.draw = function() {}
+    overlay.setMap(map)
+    return overlay.getProjection()
 }

@@ -15,12 +15,13 @@ function UserListController(userListView, groupListView){
         var userSet = userSets[user.id] = StreamSet(mdm,'/user/'+user.id)
         userListView.renderEntity(user)
         userSet.on("set",function(value,key){
-            console.log("userSet",user.id,value,key)
+            //console.log("userSet",user.id,value,key)
         })
     })
 
     userList.on("delete", function (user) {
-        userListView.unrenderUser(user)
+        console.log("got delete for user", user)
+        userListView.unrenderEntity(user)
     })
 
     userListView.on('onDragOver', function(entity,element){

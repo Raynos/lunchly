@@ -21,7 +21,7 @@ navigator.geolocation.getCurrentPosition(function (position) {
             , originY: 300
             , color: "#fff"
         })
-        , groupListController = new GroupListController(groupListView)
+        , groupListController = new GroupListController(groupListView, map)
 
     var userListView = new BlockListView({
             blockWidth : 75
