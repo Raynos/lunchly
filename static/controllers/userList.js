@@ -1,60 +1,24 @@
-var raphael = require('../lib/raphael')
-    , userWidth = 50
-    , userHeight = 50
-    , padding = 10
-    , cornering = 10
-    , moveRectangle = require('../behaviours/moveRectangle')
+var User = require("../entities").user
 
 module.exports = UserListController
 
-function UserListController(paper, userList){
-    var self = this
-    this.paper = paper
-    this.objects = {}
+function UserListController(view, userList){
     this.userList = userList
-    this.renderedUsers = 0
 
     userList.on("set", function (user) {
         console.log("got user", user)
-        self.renderUser(user)
+        view.renderUser(user)
     })
 
     userList.on("delete", function (user) {
-        self.objects[user.id].remove()
+        view.unrenderUser(user)
     })
 }
 
-UserListController.prototype.getNewCoordinates = getNewCoordinates
-UserListController.prototype.renderUser = renderUser
+UserListController.prototype.identify = identify
 
-function renderUser(user) {
-    var coordinates = this.getNewCoordinates()
-        , paper = this.paper
-
-    console.log(coordinates,this.users)
-    var rect = paper.rect(
-        coordinates.x
-        , coordinates.y
-        , userWidth
-        , userHeight
-        , cornering
-    )
-    var text = paper.text(
-        coordinates.x + userWidth / 2
-        , coordinates.y + userHeight / 2
-        , user.name
-    )
-    this.objects[user.id] = paper.set(rect, text)
-    rect.attr("fill", "#f00")
-    rect.drag.apply(rect,moveRectangle)
-}
-
-function getNewCoordinates(user){
-    var numUsers = this.renderedUsers
-        , x = (numUsers * userWidth + padding)
-        , y = 0
-
-    this.renderedUsers++
-
-    return {x:x,y:y}
+function identify(username) {
+    var user = User(username)
+    console.log("identify user", user)
+    this.userList.identify(user)
 }

@@ -1,36 +1,14 @@
-var controllers = require('./controllers/')
-    , PaperController = controllers.paperController
+var controllers = require('./controllers')
     , UserListController = controllers.userList
-    , behaviours = require("./behaviours/")
+    , behaviours = require("./behaviours")
+    , views = require("./views")
     , userList = behaviours.userList
-    , entities = require("./entities")
-    , uuid = require("node-uuid")
-    , User = entities.user
-    , LocalStore = require('local-store')
-    , store = LocalStore.createStore('userStore')
-    , ENTER = 13
+    , UserListView = views.userList
+    , UserNameView = views.username
 
-var paperController = new PaperController()
+// GLUE
 
-var userListController = new UserListController(
-    paperController.paper
-    , userList
-)
+var userListView = new UserListView()
+    , userListController = new UserListController(userListView, userList)
 
-//userListController.addUser(User(uuid()))
-
-var usernameField = document.getElementById("username")
-    , enterAppButton = document.getElementById("enter-app")
-    , userName = store.get('name')
-
-if(userName!==null){
-    usernameField.value = userName
-}
-
-enterAppButton.addEventListener('click', buttonclick)
-
-function buttonclick(event){
-    var username = usernameField.value
-    store.set('name', username)
-    userList.identify(User(username))
-}
+UserNameView(userListController)
