@@ -53,6 +53,9 @@ function StreamSet(mdm, uri) {
     streamSet.has = has
     streamSet.delete = $delete
     streamSet.keys = keys
+    streamSet.values = values
+    streamSet.toArray = toArray
+    streamSet.iterate = iterate
 
     return streamSet
 
@@ -88,7 +91,7 @@ function StreamSet(mdm, uri) {
             streamSet.emit("set", value, key, store)
         } else if (event === "delete") {
             key = data.key
-            value = data.value
+            value = store[key]
             ;delete store[key]
             streamSet.emit("delete", value, key, store)
         } else if (event === "sync") {
