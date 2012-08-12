@@ -7,5 +7,6 @@ module.exports = {
 function createFromName(name){
     return new groupEntity({
         name : name
+        , id: name
     })
 }
