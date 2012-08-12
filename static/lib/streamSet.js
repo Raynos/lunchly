@@ -53,6 +53,9 @@ function StreamSet(mdm, uri) {
     streamSet.has = has
     streamSet.delete = $delete
     streamSet.keys = keys
+    streamSet.values = values
+    streamSet.toArray = toArray
+    streamSet.iterate = iterate
 
     return streamSet
 
