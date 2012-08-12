@@ -3,6 +3,7 @@ var raphael = require('../lib/raphael')
     , userHeight = 50
     , padding = 10
     , cornering = 10
+    , moveRectangle = require('../behaviours/moveRectangle')
 
 module.exports = UserListController
 
@@ -37,6 +38,7 @@ function renderUser(user) {
         , cornering
     )
     rect.attr("fill", "#f00")
+    rect.drag.apply(rect,moveRectangle)
 }
 
 function getNewCoordinates(user){
