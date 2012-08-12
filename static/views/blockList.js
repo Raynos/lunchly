@@ -13,7 +13,7 @@ function BlockListView(options) {
     this.blockWidth = options.blockWidth || 100
     this.blockHeight = options.blockHeight || 100
     this.padding = options.padding || 100
-    this.cornering = options.cornering || 100
+    this.cornering = options.cornering || 10
     this.originX = options.originX || 0
     this.originY = options.originY || 0
 }

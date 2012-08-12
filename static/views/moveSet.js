@@ -1,10 +1,13 @@
 module.exports = function(set){
     
     function start() {
+        
         this.animate({opacity: 0.25}, 100, ">")
         for(i=0;i<set.length;i++){
-            set[i].ox = set[i].attr("x")
-            set[i].oy = set[i].attr("y")
+            var element = set[i]
+            element.toFront()
+            element.ox = element.attr("x")
+            element.oy = element.attr("y")
         }
     }
 
