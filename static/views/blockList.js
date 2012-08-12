@@ -1,4 +1,4 @@
-var moveRectangle = require('./moveRectangle')
+var moveSet = require('./moveSet')
     , EventEmitter = require('events').EventEmitter
     , util = require('util')
     , paper = require("./paper")
@@ -46,9 +46,10 @@ function renderEntity(entity) {
         , coordinates.y + this.blockHeight / 2
         , entity.name || "??"
     )
-    this.entity_set[entity.id] = paper.set(rect, text)
+    var set = paper.set(rect, text)
+    this.entity_set[entity.id] = set
+    moveSet(set)
     rect.attr("fill", "#f00")
-    rect.drag.apply(rect,moveRectangle)
     rect_entity[rect.id] = entity
     rect.onDragOver(function(element){
         console.log(rect.id + "is over "+element.id)
