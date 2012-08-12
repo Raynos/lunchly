@@ -6,6 +6,9 @@ var controllers = require('./controllers/')
     , entities = require("./entities")
     , uuid = require("node-uuid")
     , User = entities.user
+    , LocalStore = require('local-store')
+    , store = LocalStore.createStore('userStore')
+    , ENTER = 13
 
 var paperController = new PaperController()
 
@@ -17,3 +20,17 @@ var userListController = new UserListController(
 userListController.addUser(User(uuid()))
 
 console.log("entry!",paperController)
+var usernameField = document.getElementById("username")
+    , name = store.get('name')
+
+if(name!==null){
+    usernameField.value = name
+}
+
+usernameField.addEventListener('keyup',usernameKeyup)
+
+function usernameKeyup(event){
+    if(event.which === ENTER){
+        store.set('name',usernameField.value)
+    }
+}
