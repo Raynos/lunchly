@@ -1,11 +1,9 @@
-var userList = require("./userList")
-    , username = require("./username")
+var username = require("./username")
     , newGroup = require("./newGroup")
-    , groupList = require('./groupList')
+    , blockList = require('./blockList')
 
 module.exports = {
-    userList: userList
-    , username: username
+    username: username
     , newGroup: newGroup
-    , groupList : groupList
+    , blockList : blockList
 }

@@ -5,10 +5,10 @@ module.exports = GroupListController
 function GroupListController(view, groupList){
     this.groupList = groupList
     groupList.on('set',function(group){
-        view.renderGroup(group)
+        view.renderEntity(group)
     })
     groupList.on('delete',function(group){
-        view.unrenderGroup(group)
+        view.unrenderEntity(group)
     })
 }
 
