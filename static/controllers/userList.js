@@ -1,12 +1,13 @@
 var User = require("../entities").user
     , StreamSet = require('../lib/streamSet')
     , mdm = require('../lib/mdm')
+    , UserSet = require("../lib/userSet")
 
 module.exports = UserListController
 
-function UserListController(view, userList,groupListView){
+function UserListController(view,groupListView){
     var userSets = {}
-    this.userList = userList
+    var userList = this.userList = UserSet(mdm, "/users")
     
 
     userList.on("set", function (user) {

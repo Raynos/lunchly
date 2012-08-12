@@ -16,6 +16,7 @@ function BlockListView(options) {
     this.cornering = options.cornering || 10
     this.originX = options.originX || 0
     this.originY = options.originY || 0
+    this.color = options.color || ""
 }
 util.inherits(BlockListView,EventEmitter)
 
@@ -34,7 +35,7 @@ function getBlockByElementId(elementId){
 
 function renderEntity(entity) {
     var self = this
-        , coordinates = this.getNewCoordinates()
+        , coordinates = this.getNewCoordinates(entity)
     if(!entity.id){
         console.warn("renderBlock, entity has no id.  not rendering")
         return
@@ -56,7 +57,7 @@ function renderEntity(entity) {
     var set = paper.set(rect, text)
     this.entity_set[entity.id] = set
     moveSet(set)
-    rect.attr("fill", "#f00")
+    rect.attr("fill", this.color)
     rect_entity[rect.id] = entity
     rect.onDragOver(function(element){
         console.log(rect.id + "is over "+element.id)
@@ -64,9 +65,13 @@ function renderEntity(entity) {
     })
 }
 
-function getNewCoordinates(block){
+function getNewCoordinates(entity){
+    if (entity.coords) {
+        return entity.coords
+    }
+
     var numBlocks = this.renderedBlocks
-        , x = (this.originX + numBlocks * 
+        , x = (this.originX + numBlocks *
             this.blockWidth + this.padding)
         , y = this.originY
 

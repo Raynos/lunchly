@@ -5,7 +5,9 @@ var maps = require("../lib/maps")
 
 var mapCanvas = document.getElementById("map-canvas")
 
-navigator.geolocation.getCurrentPosition(function (position) {
+module.exports = createMap
+
+function createMap(position) {
     var latlng = new LatLng(
             position.coords.latitude
             , position.coords.longitude
@@ -21,4 +23,6 @@ navigator.geolocation.getCurrentPosition(function (position) {
             , title:"You are here! (at least within a " +
                 position.coords.accuracy+" meter radius)"
         })
-})
+
+    return map
+}

@@ -1,8 +1,11 @@
 var Group = require('../entities').group
+    , mdm = require("../lib/mdm")
+    , StreamSet = require('../lib/streamSet')
 
 module.exports = GroupListController
 
-function GroupListController(view, groupList){
+function GroupListController(view){
+    var groupList = StreamSet(mdm, "/groups")
     this.groupList = groupList
     groupList.on('set',function(group){
         view.renderEntity(group)
