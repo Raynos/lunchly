@@ -1,5 +1,7 @@
 var Group = require('../entities').group
     , mdm = require("../lib/mdm")
+    , maps = require("../lib/maps")
+    , LatLng = maps.LatLng
     , StreamSet = require('../lib/streamSet')
 
 module.exports = GroupListController
@@ -16,8 +18,11 @@ function GroupListController(groupListView, map){
 
         groupListView.renderEntity(group)
 
-        groupSet.on("set", function (value, key, group) {
+        groupSet.on("set", function (value, key) {
             if (key === "location") {
+                var latlng = new LatLng(value.lat, value.lng)
+                var point = map.fromLatLngToContainerPixel(latlng)
+                group.coords = point
                 groupListView.unrenderEntity(group)
                 groupListView.renderEntity(group)
             }
@@ -28,18 +33,26 @@ function GroupListController(groupListView, map){
         groupListView.unrenderEntity(group)
     })
 
-    groupListView.on("mouseup", function (entity, event) {
-        var x = event.layerX
-            , y = event.layerY
+    groupListView.on("mouseup", function (group,  event) {
+        //console.log("event", event)
 
-        console.log("map", map)
+        var x = event.target.x.baseVal.value
+            , y = event.target.y.baseVal.value
+
+        //console.log("x", x, "y", y, "event", event)
 
         var latlng = map.fromContainerPixelToLatLng({
             x: x
             , y: y
         })
 
-        console.log(latlng)
+        var lat = latlng.lat()
+            , lng = latlng.lng()
+
+        groupSets[group.id].set("location", {
+            lat: lat
+            , lng: lng
+        })
     })
 }
 

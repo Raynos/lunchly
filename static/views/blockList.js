@@ -40,7 +40,6 @@ function renderEntity(entity) {
         console.warn("renderBlock, entity has no id.  not rendering")
         return
     }
-    console.log(coordinates,this.blocks)
     var rect = paper.rect(
         coordinates.x
         , coordinates.y
@@ -48,7 +47,6 @@ function renderEntity(entity) {
         , this.blockHeight
         , this.cornering
     )
-    console.log("rendering", entity)
     var text = paper.text(
         coordinates.x + this.blockWidth / 2
         , coordinates.y + this.blockHeight / 2
@@ -59,7 +57,6 @@ function renderEntity(entity) {
     moveSet(set)
     rect.attr("fill", this.color)
     rect_entity[rect.id] = entity
-    console.log("elements", rect, text)
     set.mouseup(onmouseup)
     rect.onDragOver(function(element){
         console.log(rect.id + "is over "+element.id)

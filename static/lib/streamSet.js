@@ -81,7 +81,7 @@ function StreamSet(mdm, uri) {
     function handleStateChange(data) {
         var key, value, id, event
         data = JSON.parse(data)
-        console.log("buffer data", data)
+        //console.log("buffer data", data)
         event = data.event
         if (event === "set") {
             key = data.key

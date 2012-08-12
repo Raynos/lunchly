@@ -23,6 +23,7 @@ function createMap(position) {
             , title:"You are here! (at least within a " +
                 position.coords.accuracy+" meter radius)"
         })
+        , overlay = Overlay(map)
 
     map.fromContainerPixelToLatLng = fromContainerPixelToLatLng
     map.fromLatLngToContainerPixel = fromLatLngToContainerPixel
@@ -30,17 +31,17 @@ function createMap(position) {
     return map
 
     function fromLatLngToContainerPixel(latlng) {
-        return Projection(map).fromLatLngToContainerPixel(latlng)
+        return overlay.getProjection().fromLatLngToContainerPixel(latlng)
     }
 
     function fromContainerPixelToLatLng(pixel) {
-        return Projection(map).fromContainerPixelToLatLng(pixel)
+        return overlay.getProjection().fromContainerPixelToLatLng(pixel)
     }
 }
 
-function Projection(map) {
+function Overlay(map) {
     var overlay = new maps.OverlayView()
     overlay.draw = function() {}
     overlay.setMap(map)
-    return overlay.getProjection()
+    return overlay
 }
