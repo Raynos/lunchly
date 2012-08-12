@@ -1,6 +1,7 @@
 var boot = require("boot")
     , StreamRouter = require("stream-router")
     , StreamSetProxy = require("./lib/streamSet")
+    , UserSetProxy = require("./lib/userSet")
 
 var streamRouter = StreamRouter()
     , sock = boot(logger(streamRouter))
@@ -8,7 +9,7 @@ var streamRouter = StreamRouter()
 // A set for each user
 streamRouter.addRoute("/user/*", StreamSetProxy("/user", true))
 // A set for all users
-streamRouter.addRoute("/users/*", StreamSetProxy("/users"))
+streamRouter.addRoute("/users/*", UserSetProxy("/users"))
 // A set for each group
 streamRouter.addRoute("/group/*", StreamSetProxy("/group", true))
 // A set for all groups

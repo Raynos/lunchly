@@ -91,7 +91,7 @@ function StreamSet(mdm, uri) {
             streamSet.emit("set", value, key, store)
         } else if (event === "delete") {
             key = data.key
-            value = data.value
+            value = store[key]
             ;delete store[key]
             streamSet.emit("delete", value, key, store)
         } else if (event === "sync") {

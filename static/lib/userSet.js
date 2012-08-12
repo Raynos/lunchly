@@ -1,5 +1,7 @@
 var StreamSet = require("./streamSet")
 
+module.exports = UserSet
+
 function UserSet(mdm, uri) {
     var streamSet = StreamSet(mdm, uri)
         , identifyStream = mdm.createStream(uri + "/identify")

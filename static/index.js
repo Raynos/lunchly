@@ -17,20 +17,20 @@ var userListController = new UserListController(
     , userList
 )
 
-userListController.addUser(User(uuid()))
+//userListController.addUser(User(uuid()))
 
-console.log("entry!",paperController)
 var usernameField = document.getElementById("username")
+    , enterAppButton = document.getElementById("enter-app")
     , userName = store.get('name')
 
 if(userName!==null){
     usernameField.value = userName
 }
 
-usernameField.addEventListener('keyup',usernameKeyup)
+enterAppButton.addEventListener('click', buttonclick)
 
-function usernameKeyup(event){
-    if(event.which === ENTER){
-        store.set('name',usernameField.value)
-    }
+function buttonclick(event){
+    var username = usernameField.value
+    store.set('name', username)
+    userList.identify(User(username))
 }

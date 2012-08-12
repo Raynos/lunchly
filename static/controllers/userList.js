@@ -10,6 +10,7 @@ module.exports = UserListController
 function UserListController(paper, userList){
     var self = this
     this.paper = paper
+    this.objects = {}
     this.userList = userList
     this.renderedUsers = 0
 
@@ -17,26 +18,33 @@ function UserListController(paper, userList){
         console.log("got user", user)
         self.renderUser(user)
     })
+
+    userList.on("delete", function (user) {
+        self.objects[user.id].remove()
+    })
 }
-UserListController.prototype.addUser = addUser
+
 UserListController.prototype.getNewCoordinates = getNewCoordinates
 UserListController.prototype.renderUser = renderUser
 
-function addUser(user){
-    this.userList.set(user.id, user)
-    //this.renderUser(user)
-}
-
 function renderUser(user) {
     var coordinates = this.getNewCoordinates()
+        , paper = this.paper
+
     console.log(coordinates,this.users)
-    var rect = this.paper.rect(
+    var rect = paper.rect(
         coordinates.x
         , coordinates.y
         , userWidth
         , userHeight
         , cornering
     )
+    var text = paper.text(
+        coordinates.x + userWidth / 2
+        , coordinates.y + userHeight / 2
+        , user.name
+    )
+    this.objects[user.id] = paper.set(rect, text)
     rect.attr("fill", "#f00")
     rect.drag.apply(rect,moveRectangle)
 }
