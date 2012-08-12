@@ -14,6 +14,8 @@ function BlockListView(options) {
     this.blockHeight = options.blockHeight || 100
     this.padding = options.padding || 100
     this.cornering = options.cornering || 100
+    this.originX = options.originX || 0
+    this.originY = options.originY || 0
 }
 util.inherits(BlockListView,EventEmitter)
 
@@ -58,8 +60,9 @@ function renderEntity(entity) {
 
 function getNewCoordinates(block){
     var numBlocks = this.renderedBlocks
-        , x = (numBlocks * this.blockWidth + this.padding)
-        , y = 0
+        , x = (this.originX + numBlocks * 
+            this.blockWidth + this.padding)
+        , y = this.originY
 
     this.renderedBlocks++
 

@@ -17,6 +17,7 @@ var groupListView = new BlockListView({
         , blockHeight : 100
         , padding :10
         , cornering :10
+        , originY: 300
     })
     , groupListController = new GroupListController(groupListView, groupList)
 
