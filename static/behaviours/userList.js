@@ -1,6 +1,6 @@
 var mdm = require("../lib/mdm")
-    , StreamSet = require("../lib/streamSet")
+    , UserSet = require("../lib/userSet")
 
-var userList = StreamSet(mdm, "/users")
+var userList = UserSet(mdm, "/users")
 
 module.exports = userList
