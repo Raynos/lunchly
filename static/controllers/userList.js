@@ -10,7 +10,7 @@ function UserListController(view, userList,groupListView){
     
 
     userList.on("set", function (user) {
-        console.log("got user", user)
+        // console.log("got user", user)
         var userSet = userSets[user.id] = StreamSet(mdm,'/user/'+user.id)
         view.renderUser(user)
         userSet.on("set",function(value,key){

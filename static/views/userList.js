@@ -33,7 +33,7 @@ function renderUser(user) {
         , userHeight
         , cornering
     )
-    console.log("rendering", user)
+    // console.log("rendering", user)
     var text = paper.text(
         coordinates.x + userWidth / 2
         , coordinates.y + userHeight / 2
@@ -44,7 +44,7 @@ function renderUser(user) {
     rect.drag.apply(rect,moveRectangle)
     rect_user[rect.id] = user
     rect.onDragOver(function(element){
-        console.log(rect.id + "is over "+element.id)
+        // console.log(rect.id + "is over "+element.id)
         self.emit('userOnElement',user,element.id)
     })
 }

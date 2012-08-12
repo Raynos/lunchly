@@ -16,5 +16,6 @@ GroupListController.prototype.newGroup = newGroup
 
 function newGroup(name) {
     var group = Group(name)
+    console.log("new group created", group)
     this.groupList.set(group.id, group)
 }

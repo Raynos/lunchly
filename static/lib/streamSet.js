@@ -16,11 +16,11 @@ function StreamSet(mdm, uri) {
         , bufferWrite = PauseStream().pause()
         , id = uuid()
 
-    console.log("channel stream ", uri + "/channel")
+    // console.log("channel stream ", uri + "/channel")
 
-    channel.on("end", function () {
-        console.log("channel dead")
-    })
+    // channel.on("end", function () {
+    //     console.log("channel dead")
+    // })
 
     // request a sync
     channel.write(JSON.stringify({
@@ -28,9 +28,9 @@ function StreamSet(mdm, uri) {
         , id: id
     }))
 
-    channel.on("data", function (data) {
-        console.log("channel data", JSON.parse(data))
-    })
+    // channel.on("data", function (data) {
+    //     console.log("channel data", JSON.parse(data))
+    // })
 
     // open a stream connection to the sync server
     var syncStream = StreamClient(mdm, {
@@ -66,7 +66,7 @@ function StreamSet(mdm, uri) {
     }
 
     function emitReady(data) {
-        console.log("emit ready called")
+        // console.log("emit ready called")
         streamSet.emit("ready")
         bufferRead.resume()
         bufferWrite.resume()
@@ -74,32 +74,32 @@ function StreamSet(mdm, uri) {
 
     function setOnStore(value, key) {
         store[key] = value
-        console.log("emitting from setOnStore")
+        // console.log("emitting from setOnStore")
         streamSet.emit("set", value, key, store)
     }
 
     function handleStateChange(data) {
         var key, value, id, event
         data = JSON.parse(data)
-        console.log("buffer data", data)
+        // console.log("buffer data", data)
         event = data.event
         if (event === "set") {
             key = data.key
             value = data.value
             store[key] = value
-            console.log("log emitting from streamSet")
+            // console.log("log emitting from streamSet")
             streamSet.emit("set", value, key, store)
         } else if (event === "delete") {
             key = data.key
             value = store[key]
             ;delete store[key]
-            streamSet.emit("delete", value, key, store)
+            // streamSet.emit("delete", value, key, store)
         } else if (event === "sync") {
             id = data.id
             var server = StreamServer(mdm, {
                 prefix: uri + "/proxy"
             }, function (stream) {
-                console.log("store", store)
+                // console.log("store", store)
                 stream.write(JSON.stringify(store))
                 stream.end()
                 server.end()
@@ -109,7 +109,7 @@ function StreamSet(mdm, uri) {
 
     function set(key, value) {
         store[key] = value
-        console.log("writing to channel")
+        // console.log("writing to channel")
         bufferWrite.write(JSON.stringify({
             event: "set"
             , key: key

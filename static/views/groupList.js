@@ -33,7 +33,7 @@ function renderGroup(group) {
         , groupHeight
         , cornering
     )
-    console.log("rendering", group)
+    // console.log("rendering", group)
     var text = paper.text(
         coordinates.x + groupWidth / 2
         , coordinates.y + groupHeight / 2
